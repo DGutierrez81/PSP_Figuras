@@ -1,0 +1,14 @@
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.AssemblyInfoInputs.cache
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.AssemblyInfo.cs
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.csproj.CoreCompileInputs.cache
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\bin\Debug\net6.0\Figuras.exe
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\bin\Debug\net6.0\Figuras.deps.json
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\bin\Debug\net6.0\Figuras.runtimeconfig.json
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\bin\Debug\net6.0\Figuras.dll
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\bin\Debug\net6.0\Figuras.pdb
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.dll
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\refint\Figuras.dll
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.pdb
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.genruntimeconfig.cache
+C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\ref\Figuras.dll
