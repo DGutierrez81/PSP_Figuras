@@ -3,90 +3,97 @@
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 
 public class Principal
 {
     public static void Main(string[] args)
     {
-        Circulo circulo = new Circulo();
-
-        circulo.punto(44, 60);
-
-        circulo.Radio = 20;
-
-        Rectangulo rectangulo = new Rectangulo();
-
         try
         {
-            rectangulo.punto(803, 700);
-
-            rectangulo.Alto = 30;
-
-            rectangulo.Ancho = 100;
-        } catch(ArgumentOutOfRangeException)
-        {
-            Console.WriteLine("Ha dado error, como debe");
-        }
-        GraficoCompuesto compuesto = new GraficoCompuesto();
-
-        compuesto.Aniadir(circulo);
-
-        compuesto.Aniadir(rectangulo);
-
-        compuesto.Mover(600, 70);
-
-        compuesto.Dibujar();
-
-        Console.WriteLine("Menu: \n1 Mover gráfico.\n2 Salir");
-
-        String eleccion = Console.ReadLine();
-
-        try
-        {
-            switch (eleccion)
-            {
-                case "1":
-                    Console.WriteLine("¿Qué gráfico desea mover?\n1 Circulo.\n2 Rectángulo.\n3 Todos.");
-                    String respuesta = Console.ReadLine();
-                    switch (respuesta)
-                    {
-                        case "1":
-                            Console.WriteLine("Escriba el valor de la coordenada x: ");
-                            int xCirulo = int.Parse(Console.ReadLine());
-                            Console.WriteLine("Escriba el valor de la coordenada y: ");
-                            int yCirulo = int.Parse(Console.ReadLine());
-                            circulo.Mover(xCirulo, yCirulo);
-                            Console.WriteLine(circulo.Dibujar());
-                            break;
-                        case "2":
-                            Console.WriteLine("Escriba el valor de la coordenada x: ");
-                            int xRectangulo = int.Parse(Console.ReadLine());
-                            Console.WriteLine("Escriba el valor de la coordenada y: ");
-                            int yRectangulo = int.Parse(Console.ReadLine());
-                            rectangulo.Mover(xRectangulo, yRectangulo);
-                            Console.WriteLine(rectangulo.Dibujar());
-                            break;
-                        case "3":
-                            Console.WriteLine("Escriba el valor de la coordenada x: ");
-                            int xCompuesto = int.Parse(Console.ReadLine());
-                            Console.WriteLine("Escriba el valor de la coordenada y: ");
-                            int yCompuesto = int.Parse(Console.ReadLine());
-                            compuesto.Mover(xCompuesto, yCompuesto);
-                            Console.WriteLine(compuesto.Dibujar());
-                            break;
-                    }
-                    break;
-                case "2":
-                    Console.WriteLine("Fin del programa.");
-                    break;
-            }
+            Editor editor1 = new Editor();
+            var guardado = editor1.Creacion();
+            var mensaje = editor1.Aniadir(guardado);
+            Console.WriteLine(mensaje);
         }
         catch (ArgumentOutOfRangeException)
         {
             Console.WriteLine("Puntos o figura fuera de rango.");
+        }catch (FormatException)
+        {
+            Console.WriteLine("Tipo de dato inválido.");
         }
 
+    }
+}
+class Editor
+{
+    private List<IGrafico> editores = new List<IGrafico>();
+
+    public GraficoCompuesto Creacion()
+    {
+        Punto punto;
+        GraficoCompuesto compuesto = new GraficoCompuesto();
+        Console.WriteLine("Bienvenido a su editor\nEscriba los puntos de coordenada\nEje x: ");
+        int x = int.Parse(Console.ReadLine());
+        Console.WriteLine("Eje y: ");
+        int y = int.Parse(Console.ReadLine());
+        punto = new Punto(x, y);
+        Console.WriteLine("Escriba el valor del radio: ");
+        int radio = int.Parse(Console.ReadLine());
+        Circulo circulo = new Circulo(x, y, radio);
+        Console.WriteLine("Escriba el valor de la altura: ");
+        int altura = int.Parse(Console.ReadLine());
+        Console.WriteLine("Escriba el valor del ancho: ");
+        int ancho = int.Parse(Console.ReadLine());
+        Rectangulo rectangulo = new Rectangulo(x, y, altura, ancho);
+        Console.WriteLine("Menu: \n1 Mover gráfico.\n2 Salir");
+        String eleccion = Console.ReadLine();
+        compuesto.Aniadir(punto);
+        compuesto.Aniadir(circulo);
+        compuesto.Aniadir(rectangulo);
+        Menu(eleccion, circulo, rectangulo);
+        return compuesto;
+    }
+
+    private void Menu(String eleccion, Circulo circulo, Rectangulo rectangulo)
+    {
+        while (eleccion == "1")
+        {
+            Console.WriteLine("¿Qué gráfico desea mover?\n1 Circulo.\n2 Rectángulo.");
+            String respuesta = Console.ReadLine();
+            switch (respuesta)
+            {
+                case "1":
+                    Console.WriteLine(circulo.Dibujar());
+                    Console.WriteLine("Escriba el nuevo valor de la coordenada x: ");
+                    int xCirulo = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Escriba el nuevo valor de la coordenada y: ");
+                    int yCirulo = int.Parse(Console.ReadLine());
+                    circulo.Mover(xCirulo, yCirulo);
+                    Console.WriteLine(circulo.Dibujar());
+                    break;
+                case "2":
+                    Console.WriteLine(rectangulo.Dibujar());
+                    Console.WriteLine("Escriba el nuevo valor de la coordenada x: ");
+                    int xRectangulo = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Escriba el nuevo valor de la coordenada y: ");
+                    int yRectangulo = int.Parse(Console.ReadLine());
+                    rectangulo.Mover(xRectangulo, yRectangulo);
+                    Console.WriteLine(rectangulo.Dibujar());
+                    break;
+            }
+            Console.WriteLine("Menu: \n1 Mover gráfico.\n2 Salir");
+            eleccion = Console.ReadLine();
+        }
+        Console.WriteLine("Fin del programa de movimiento de gráfico.");
+    }
+
+    public String Aniadir(IGrafico grafico)
+    {
+        editores.Add(grafico);
+        return "Editor añadido correctamente.";
     }
 }
 
@@ -101,10 +108,6 @@ public class GraficoCompuesto: IGrafico
 {
     private List<IGrafico> graficos = new List<IGrafico>();   
 
-    public GraficoCompuesto(List<IGrafico> graficos)
-    {
-        this.graficos = graficos;
-    }
 
     public Boolean Mover(int x, int y)
     {
@@ -171,8 +174,8 @@ public class Punto: IGrafico
 
     public Punto(int x, int y)
     {
-        X = x;
-        X = x;
+        this.x = x;
+        this.y = y;
     }   
 
     public String punto(int x, int y)
@@ -185,7 +188,7 @@ public class Punto: IGrafico
 
     public virtual Boolean Mover(int x, int y)
     {
-        if((x >= 0 && x <= 800))
+        if((x >= 0 && x <= 800)&&(y >= 0 && y <= 600))
         {
             return true;
         }
@@ -220,8 +223,10 @@ public class Circulo: Punto
         }
     }
 
-    public Circulo(int radio): base(x, y)
+    public Circulo(int x, int y, int radio): base(x, y)
     {
+        this.x = x;
+        this.y = y;
         Radio = radio;
     }
 
@@ -229,7 +234,7 @@ public class Circulo: Punto
     {
         punto(x, y);
 
-        this.radio = radio;
+        radio = Radio;
     }
 
     public override Boolean Mover(int x, int y)
@@ -249,7 +254,7 @@ public class Circulo: Punto
     public override String Dibujar()
     {
         String resultado = "";
-        if(Mover(this.x, this.y)) { resultado = "El circulo se ha desplazado al punto " + "(" + x + "," + y + ")"; }
+        if(Mover(this.x, this.y)) { resultado = "El circulo se encuentra en el punto " + "(" + x + "," + y + ")"; }
         else
         {
             throw new ArgumentOutOfRangeException();
@@ -297,11 +302,18 @@ public class Rectangulo: Punto
         }
     }
 
+    public Rectangulo(int x, int y, int alto, int ancho): base(x, y)
+    {
+        this.x = x;
+        this.y = y;
+        Ancho = ancho;
+        Alto = alto;
+    }
     public void rectangulo(int x, int y, int ancho, int alto)
     {
         punto(x, y);
-        this.ancho = ancho;
-        this.alto = alto;
+        ancho = Ancho;
+        alto = Alto;
     }
 
     public override Boolean Mover(int x, int y)
@@ -309,7 +321,7 @@ public class Rectangulo: Punto
         this.x = x;
         this.y = y;
 
-        if (base.Mover(x + ancho, y + alto) && base.Mover(x - ancho, y - alto))
+        if (base.Mover(x + this.ancho, y + this.alto) && base.Mover(x - this.ancho, y - this.alto))
         {
             return true;
         }
@@ -322,7 +334,7 @@ public class Rectangulo: Punto
     public override String Dibujar()
     {
         String resultado = "";
-        if (Mover(this.x, this.y)) { resultado = "El rectángulo se ha desplazado al punto " + "(" + x + "," + y + ")"; }
+        if (Mover(this.x, this.y)) { resultado = "El rectángulo se encuentra en el punto " + "(" + x + "," + y + ")"; }
         else
         {
             throw new ArgumentOutOfRangeException();
