@@ -1,10 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
 
 public class Principal
 {
@@ -20,13 +15,14 @@ public class Principal
         catch (ArgumentOutOfRangeException)
         {
             Console.WriteLine("Puntos o figura fuera de rango.");
-        }catch (FormatException)
+        }
+        catch (FormatException)
         {
             Console.WriteLine("Tipo de dato inválido.");
         }
-
     }
 }
+
 class Editor
 {
     private List<IGrafico> editores = new List<IGrafico>();
@@ -68,10 +64,10 @@ class Editor
                 case "1":
                     Console.WriteLine(circulo.Dibujar());
                     Console.WriteLine("Escriba el nuevo valor de la coordenada x: ");
-                    int xCirulo = int.Parse(Console.ReadLine());
+                    int xCirculo = int.Parse(Console.ReadLine());
                     Console.WriteLine("Escriba el nuevo valor de la coordenada y: ");
-                    int yCirulo = int.Parse(Console.ReadLine());
-                    circulo.Mover(xCirulo, yCirulo);
+                    int yCirculo = int.Parse(Console.ReadLine());
+                    circulo.Mover(xCirculo, yCirculo);
                     Console.WriteLine(circulo.Dibujar());
                     break;
                 case "2":
@@ -99,26 +95,20 @@ class Editor
 
 public interface IGrafico
 {
-
     Boolean Mover(int x, int y);
     String Dibujar();
 }
 
-public class GraficoCompuesto: IGrafico
+public class GraficoCompuesto : IGrafico
 {
-    private List<IGrafico> graficos = new List<IGrafico>();   
-
+    private List<IGrafico> graficos = new List<IGrafico>();
 
     public Boolean Mover(int x, int y)
     {
         var retorno = true;
-        for(int i = 0;  i < graficos.Count; i++)
+        for (int i = 0; i < graficos.Count; i++)
         {
-            if(graficos[i].Mover(x, y))
-            {
-                retorno =  true;
-            }
-            else
+            if (!graficos[i].Mover(x, y))
             {
                 retorno = false;
             }
@@ -129,7 +119,8 @@ public class GraficoCompuesto: IGrafico
     public String Dibujar()
     {
         String resultado = "";
-        for(int i = 0; i < graficos.Count; i++){
+        for (int i = 0; i < graficos.Count; i++)
+        {
             resultado += graficos[i].Dibujar() + "\n";
         }
         return resultado;
@@ -141,204 +132,72 @@ public class GraficoCompuesto: IGrafico
     }
 }
 
-public class Punto: IGrafico
+public class Punto : IGrafico
 {
     protected int x;
-
-    public int X
-    { get { return x; }
-        set { if (value >= 0 && value <= 800)
-            {
-                x = value;
-            }
-            else {
-                throw new ArgumentOutOfRangeException();
-            }
-        }
-    }
     protected int y;
-
-    public int Y 
-    { get { return y; } 
-        set {
-            if (value >= 0 && value <= 600)
-            {
-                x = value;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-        }
-    }
 
     public Punto(int x, int y)
     {
         this.x = x;
         this.y = y;
-    }   
-
-    public String punto(int x, int y)
-    {
-        this.x = x; 
-        this.y = y;
-        return "Punto inicial (" + x + ", " + y + ")";
     }
 
-
-    public virtual Boolean Mover(int x, int y)
+    public Boolean Mover(int x, int y)
     {
-        if((x >= 0 && x <= 800)&&(y >= 0 && y <= 600))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        this.x = x;
+        this.y = y;
+        return true; // Simplemente actualiza las coordenadas del punto
     }
 
     public virtual String Dibujar()
     {
-        return " se encuentra en el punto (" + x + ", " + y + ")";
+        return "Punto se encuentra en el punto (" + x + ", " + y + ")";
     }
 }
 
-public class Circulo: Punto
+public class Circulo : Punto
 {
     int radio;
-    public int Radio
+
+    public Circulo(int x, int y, int radio) : base(x, y)
     {
-        get { return radio; }
-        set
-        {
-            if ((this.x - value >= 0 && this.x + value <= 800) && (this.y - value >= 0 && this.y + value <= 600))
-            {
-                radio = value;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-        }
+        this.radio = radio;
     }
 
-    public Circulo(int x, int y, int radio): base(x, y)
+    public virtual Boolean Mover(int x, int y)
     {
         this.x = x;
         this.y = y;
-        Radio = radio;
-    }
-
-    public void circulo(int x, int y, int radio)
-    {
-        punto(x, y);
-
-        radio = Radio;
-    }
-
-    public override Boolean Mover(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-        if (base.Mover(x + this.radio, y + this.radio) && base.Mover(x - this.radio, y - this.radio))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return true; // Simplemente actualiza las coordenadas del punto
     }
 
     public override String Dibujar()
     {
-        String resultado = "";
-        if(Mover(this.x, this.y)) { resultado = "El circulo se encuentra en el punto " + "(" + x + "," + y + ")"; }
-        else
-        {
-            throw new ArgumentOutOfRangeException();
-        }
-        return resultado;
+        return "El círculo se encuentra en el punto (" + x + "," + y + ") con radio " + radio;
     }
 }
 
-public class Rectangulo: Punto
+public class Rectangulo : Punto
 {
     protected int ancho;
-
-    public int Ancho
-    {
-        get { return ancho; }
-        set
-        {
-            if (this.x - value >= 0 && this.x + value <= 800)
-            {
-                ancho = value;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-        }
-    }
-
-
     protected int alto;
 
-    public int Alto
+    public Rectangulo(int x, int y, int alto, int ancho) : base(x, y)
     {
-        get { return alto; }
-        set
-        {
-            if (this.y - value >= 0 && this.y + value <= 600)
-            {
-                alto = value;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-        }
+        this.alto = alto;
+        this.ancho = ancho;
     }
 
-    public Rectangulo(int x, int y, int alto, int ancho): base(x, y)
+    public virtual Boolean Mover(int x, int y)
     {
         this.x = x;
         this.y = y;
-        Ancho = ancho;
-        Alto = alto;
-    }
-    public void rectangulo(int x, int y, int ancho, int alto)
-    {
-        punto(x, y);
-        ancho = Ancho;
-        alto = Alto;
-    }
-
-    public override Boolean Mover(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-
-        if (base.Mover(x + this.ancho, y + this.alto) && base.Mover(x - this.ancho, y - this.alto))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return true; // Simplemente actualiza las coordenadas del punto
     }
 
     public override String Dibujar()
     {
-        String resultado = "";
-        if (Mover(this.x, this.y)) { resultado = "El rectángulo se encuentra en el punto " + "(" + x + "," + y + ")"; }
-        else
-        {
-            throw new ArgumentOutOfRangeException();
-        }
-        return resultado;
+        return "El rectángulo se encuentra en el punto (" + x + "," + y + ") con ancho " + ancho + " y alto " + alto;
     }
 }

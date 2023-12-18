@@ -12,3 +12,17 @@ C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\refint\Figuras.d
 C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.pdb
 C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\Figuras.genruntimeconfig.cache
 C:\Users\ergut\OneDrive\Escritorio\PSP\Figuras\obj\Debug\net6.0\ref\Figuras.dll
+E:\PSP\PSP_Figuras\bin\Debug\net6.0\Figuras.exe
+E:\PSP\PSP_Figuras\bin\Debug\net6.0\Figuras.deps.json
+E:\PSP\PSP_Figuras\bin\Debug\net6.0\Figuras.runtimeconfig.json
+E:\PSP\PSP_Figuras\bin\Debug\net6.0\Figuras.dll
+E:\PSP\PSP_Figuras\bin\Debug\net6.0\Figuras.pdb
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.GeneratedMSBuildEditorConfig.editorconfig
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.AssemblyInfoInputs.cache
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.AssemblyInfo.cs
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.csproj.CoreCompileInputs.cache
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.dll
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\refint\Figuras.dll
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.pdb
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\Figuras.genruntimeconfig.cache
+E:\PSP\PSP_Figuras\obj\Debug\net6.0\ref\Figuras.dll
